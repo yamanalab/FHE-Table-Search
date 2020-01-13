@@ -1,3 +1,4 @@
+//This code makes a demo table, not for real function
 #include <iostream>
 #include <cstdio>
 #include <fstream>
@@ -22,13 +23,6 @@ int main(void){
   // unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   // std::mt19937 generator(seed);
 
-  // for(long i=0 ; i<2 ; ++i){
-  //   for(long j=0 ; j<2048 ; ++j){
-  //     inputT_row.push_back(j);
-  //   }
-  //   inputT.push_back(inputT_row);
-  //   inputT_row.clear();
-  // }
 
   for(long i=0 ; i<2 ; ++i){
     for(long j=0 ; j<4096 ; ++j){
@@ -40,10 +34,10 @@ int main(void){
     inputT.push_back(inputT_row);
     inputT_row.clear();
   }
- 
+
   long k=0,d=0;
-  for(long i=0 ; i<4096 ; i++){ //the number of possible input values of the first input
-    for(long j=0 ; j<4096 ; j++){ //the number of possible input values of the second input
+  for(long i=0 ; i<4096 ; i++){
+    for(long j=0 ; j<4096 ; j++){
       d++;
       if(i<36 && j<36){
         outputT.push_back(inputT[0][i]+inputT[1][j]);
