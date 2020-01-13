@@ -40,7 +40,7 @@ make
 ```
 If you change the table size,
 ```
-g++ make_table.cpp -o make_tale
+g++ make_table.cpp -o make_table
 ./make_table
 ```
 
