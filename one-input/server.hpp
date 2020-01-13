@@ -20,5 +20,5 @@
 #include <stdio.h>
 #include "seal/seal.h"
 #include "omp.h"
-#define TABLE_SIZE_N 819200
-#define NF 4
+#define TABLE_SIZE_N 819200 //The number of all possible input of function
+#define NF 4  //The number of threads

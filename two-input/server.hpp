@@ -20,6 +20,6 @@
 #include <stdio.h>
 #include "seal/seal.h"
 #include "omp.h"
-#define NUM 4096 //The number of possible input values for each input
-#define NUM2 16777216 //The number of all combinations of two inputs
+#define NUM 4096 //The number of possible inputs for each input value
+#define NUM2 16777216 //The number of all possible combination for two input values
 #define NF 8 //The number of threads
