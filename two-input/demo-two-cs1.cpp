@@ -78,20 +78,36 @@ vector<int64_t> read_vector(const string &filename){
 }
 
 //create a random vector for permutation
+// vector<int64_t> getRandomVector(int64_t Total){
+//   vector<int64_t> input =* new vector<int64_t>();
+//   for(int64_t i=0 ; i<Total ; i++){
+//     input.push_back(i);
+//   }
+//   vector<int64_t> output =* new vector<int64_t>();
+//   int end=Total;
+//   for(int64_t i=0;i<Total;i++){
+//     vector<int64_t>::iterator iter=input.begin();
+//     int64_t num=generator()%end;
+//     iter+=num;
+//     output.push_back(*iter);
+//     input.erase(iter);
+//     end--;
+//   }
+//   return output;
+// }
+bool cmp(pair<int64_t, int64_t> a, pair<int64_t, int64_t> b){
+  return a.second < b.second;
+}
+
 vector<int64_t> getRandomVector(int64_t Total){
-  vector<int64_t> input =* new vector<int64_t>();
+  vector<pair<int64_t, int64_t> > input;
+  vector<int64_t> output;
   for(int64_t i=0 ; i<Total ; i++){
-    input.push_back(i);
+    input.push_back({i, generator()%1000000});
   }
-  vector<int64_t> output =* new vector<int64_t>();
-  int end=Total;
-  for(int64_t i=0;i<Total;i++){
-    vector<int64_t>::iterator iter=input.begin();
-    int64_t num=generator()%end;
-    iter+=num;
-    output.push_back(*iter);
-    input.erase(iter);
-    end--;
+  sort(input.begin(), input.end(), cmp);
+  for(int64_t i=0 ; i<Total ; i++){
+    output.push_back(input[i].first);
   }
   return output;
 }
@@ -130,13 +146,13 @@ void Create_LUT(vector<int64_t> &table_x, vector<int64_t> &table_y, vector<int64
       int64_t tepy=vi_y[t];
 
       per_out.push_back(table_out[tepx*NUM+tepy]);
-      if(table_out[tepx*NUM+tepy]!=1000) ooo++;
-      if(per_out[h*NUM+t]==2) cout<<"\033[1;32m Hereeee\033[0m"<<endl;
+    //   if(table_out[tepx*NUM+tepy]!=1000) ooo++;
+    //   if(per_out[h*NUM+t]==2) cout<<"\033[1;32m Here\033[0m"<<endl;
     }
   }
   cout<<"Made permuted output vector is:"<<endl;
   //out_vector(per_out);
-  cout<<"not 1000 has:"<<ooo<<endl;
+  //cout<<"not 1000 has:"<<ooo<<endl;
 
   cout<<"Permuted out vector"<<endl;
   for(int i=0 ; i<ks ; i++){
@@ -152,6 +168,7 @@ void Create_LUT(vector<int64_t> &table_x, vector<int64_t> &table_y, vector<int64
 
 int main(int argc, char *argv[]){
   auto startWhole=chrono::high_resolution_clock::now();
+  auto startWhole3=chrono::high_resolution_clock::now();
   //resetting FHE
   cout << "Setting FHE..." << flush;
   ifstream parmsFile("Params");
@@ -184,9 +201,13 @@ int main(int argc, char *argv[]){
   int64_t k = ceil(NUM/row_size);
   int64_t ks= ceil(NUM2/row_size);
   cout<<"row length:"<<l<<", k:"<<k<<", ks:"<<ks<<endl;
+  auto endWhole3=chrono::high_resolution_clock::now();
+  chrono::duration<double> diffWhole3 = endWhole3-startWhole3;
+
   //////////////////////////////////////////////////////////////////////////////
 
   //Read query from file
+  auto start1=chrono::high_resolution_clock::now();
   cout << "Reading query ..." << flush;
   ifstream readQuery;
   string s1(argv[1]);
@@ -210,7 +231,6 @@ int main(int argc, char *argv[]){
   }
   cout << "OK" << endl;
 
-  auto start1=chrono::high_resolution_clock::now();
 
   vector<int64_t> vi_x = getRandomVector(NUM);
   vector<int64_t> vi_y = getRandomVector(NUM);
@@ -232,7 +252,11 @@ int main(int argc, char *argv[]){
   }
   OutputTable.close();
 
+  auto end1=chrono::high_resolution_clock::now();
+  chrono::duration<double> diffWhole1 = end1-start1;
+
   //Make Threads to compute every row of table
+  auto startWhole2=chrono::high_resolution_clock::now();
   cout << "Make threads for each row and compute" << endl;
   vector<Ciphertext> result_x, result_y;
   for(int i=0; i<k ; i++){
@@ -279,9 +303,9 @@ int main(int argc, char *argv[]){
         << relin_keys16.decomposition_bit_count() << endl;
     result_y[i]=res_y;
   }
-  auto end1=chrono::high_resolution_clock::now();
-  chrono::duration<double> diffWhole1 = end1-start1;
-  cout << "Without file reading runtime is: " << diffWhole1.count() << "s" << endl;
+  // auto end1=chrono::high_resolution_clock::now();
+  // chrono::duration<double> diffWhole1 = end1-start1;
+  // cout << "Without file reading runtime is: " << diffWhole1.count() << "s" << endl;
 
   //Get vector<Ctxt> Result
   cout << "Saving..." << flush;
@@ -295,9 +319,14 @@ int main(int argc, char *argv[]){
   outResult_x.close();
   outResult_y.close();
   cout << "OK" << endl;
+  auto endWhole2=chrono::high_resolution_clock::now();
+  chrono::duration<double> diffWhole2 = endWhole2-startWhole2;
 
   auto endWhole=chrono::high_resolution_clock::now();
   chrono::duration<double> diffWhole = endWhole-startWhole;
+  cout << "set FHE runtime is: " << diffWhole3.count() << "s" << endl;
+  cout << "construct LUT runtime is: " << diffWhole1.count() << "s" << endl;
+  cout << "thread work runtime is: " << diffWhole2.count() << "s" << endl;
   cout << "Whole runtime is: " << diffWhole.count() << "s" << endl;
 
   return 0;

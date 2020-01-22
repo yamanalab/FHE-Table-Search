@@ -29,24 +29,39 @@ vector<vector <int64_t> > read_table(const string &filename){
 }
 
 //create a random vector for permutation
+// vector<int64_t> getRandomVector(int64_t Total){
+//   vector<int64_t> input =* new vector<int64_t>();
+//   for(int64_t i=0 ; i<Total ; i++){
+//     input.push_back(i);
+//   }
+//   vector<int64_t> output=*new vector<int64_t>();
+//   int end=Total;
+//   for(int64_t i=0;i<Total;i++){
+//     vector<int64_t>::iterator iter=input.begin();
+//     int64_t num=generator()%end;
+//     iter+=num;
+//     output.push_back(*iter);
+//     input.erase(iter);
+//     end--;
+//   }
+//   return output;
+// }
+bool cmp(pair<int64_t, int64_t> a, pair<int64_t, int64_t> b){
+  return a.second < b.second;
+}
+
 vector<int64_t> getRandomVector(int64_t Total){
-  vector<int64_t> input =* new vector<int64_t>();
+  vector<pair<int64_t, int64_t> > input;
+  vector<int64_t> output;
   for(int64_t i=0 ; i<Total ; i++){
-    input.push_back(i);
+    input.push_back({i, generator()%1000000});
   }
-  vector<int64_t> output=*new vector<int64_t>();
-  int end=Total;
-  for(int64_t i=0;i<Total;i++){
-    vector<int64_t>::iterator iter=input.begin();
-    int64_t num=generator()%end;
-    iter+=num;
-    output.push_back(*iter);
-    input.erase(iter);
-    end--;
+  sort(input.begin(), input.end(), cmp);
+  for(int64_t i=0 ; i<Total ; i++){
+    output.push_back(input[i].first);
   }
   return output;
 }
-
 //creat new LUT
 void Create_LUT(vector<vector<int64_t> > LUT, vector<int64_t> randomVector,vector<vector<int64_t> > &LUT_input, vector<vector<int64_t> > &LUT_output, int64_t &l, int64_t &k){
   cout<<k<<' '<<l<<endl;
