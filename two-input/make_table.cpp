@@ -1,4 +1,3 @@
-//This code makes a demo table, not for real function
 #include <iostream>
 #include <cstdio>
 #include <fstream>
@@ -13,7 +12,7 @@
 #include <cstddef>
 #include <iomanip>
 #include <string>
-
+#define NUM 4096
 using namespace std;
 
 int main(void){
@@ -23,9 +22,16 @@ int main(void){
   // unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   // std::mt19937 generator(seed);
 
+  // for(long i=0 ; i<2 ; ++i){
+  //   for(long j=0 ; j<2048 ; ++j){
+  //     inputT_row.push_back(j);
+  //   }
+  //   inputT.push_back(inputT_row);
+  //   inputT_row.clear();
+  // }
 
   for(long i=0 ; i<2 ; ++i){
-    for(long j=0 ; j<4096 ; ++j){
+    for(long j=0 ; j<NUM ; ++j){
       if(j<36)
         inputT_row.push_back(j+1);
       else
@@ -34,10 +40,18 @@ int main(void){
     inputT.push_back(inputT_row);
     inputT_row.clear();
   }
-
+  // long k=0;
+  // for(long i=0 ; i<2048 ; i++){
+  //   for(long j=0 ; j<2048 ; j++){
+  //     cout<<"i:"<<i<<", j:"<<j<<endl;
+  //     outputT.push_back(inputT[0][i]+inputT[1][j]);
+  //     k++;
+  //   }
+  // }
+  // cout<<"k is:"<<k<<endl;
   long k=0,d=0;
-  for(long i=0 ; i<4096 ; i++){
-    for(long j=0 ; j<4096 ; j++){
+  for(long i=0 ; i<NUM ; i++){
+    for(long j=0 ; j<NUM ; j++){
       d++;
       if(i<36 && j<36){
         outputT.push_back(inputT[0][i]+inputT[1][j]);
