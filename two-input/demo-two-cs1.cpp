@@ -165,6 +165,15 @@ void Create_LUT(vector<int64_t> &table_x, vector<int64_t> &table_y, vector<int64
 
 }
 
+vector<int64_t> createrandomvector(int64_t leg){
+  vector<int64_t> randomvec;
+  for(int i=0 ; i<leg ; ++i){
+    int64_t random_value = (generator()%30+1);
+    randomvec.push_back(random_value);
+  }
+  return randomvec;
+}
+
 
 int main(int argc, char *argv[]){
   auto startWhole=chrono::high_resolution_clock::now();
@@ -277,8 +286,10 @@ int main(int argc, char *argv[]){
     evaluator.sub_plain_inplace(res_x, poly_row_x);
     evaluator.relinearize_inplace(res_x, relin_keys16);
 
-    int64_t random_value1 = (generator()%10+1);
-    Plaintext poly_num_x = encoder.encode(random_value1);
+    vector<int64_t> random_value_vec1 = createrandomvector(slot_count);
+    Plaintext poly_num_x;
+    batch_encoder.encode(random_value_vec1, poly_num_x);
+
     evaluator.multiply_plain_inplace(res_x, poly_num_x);
     evaluator.relinearize_inplace(res_x, relin_keys16);
     cout << "Size after relinearization: " << res_x.size() << endl;
@@ -294,8 +305,10 @@ int main(int argc, char *argv[]){
     evaluator.sub_plain_inplace(res_y, poly_row_y);
     evaluator.relinearize_inplace(res_y, relin_keys16);
 
-    int64_t random_value2 = (generator()%10+1);
-    Plaintext poly_num_y = encoder.encode(random_value2);
+    vector<int64_t> random_value_vec2 = createrandomvector(slot_count);
+    Plaintext poly_num_y;
+    batch_encoder.encode(random_value_vec2, poly_num_y);
+
     evaluator.multiply_plain_inplace(res_y, poly_num_y);
     evaluator.relinearize_inplace(res_y, relin_keys16);
     cout << "Size after relinearization: " << res_y.size() << endl;

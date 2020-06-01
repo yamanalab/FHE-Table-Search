@@ -102,6 +102,15 @@ void output_plaintext(const vector<vector <int64_t>> &a){
     }
 }
 
+vector<int64_t> createrandomvector(int64_t leg){
+  vector<int64_t> randomvec;
+  for(int i=0 ; i<leg ; ++i){
+    int64_t random_value = (generator()%30+1);
+    randomvec.push_back(random_value);
+  }
+  return randomvec;
+}
+
 int main(int argc, char *argv[]){
   auto startWhole=chrono::high_resolution_clock::now();
   //resetting FHE
@@ -212,8 +221,9 @@ for(int64_t i=0 ; i<k ; i++){
   batch_encoder.encode(LUT_input[i], poly_row);
   evaluator.sub_plain_inplace(res, poly_row);
   evaluator.relinearize_inplace(res, relin_keys16);
-  int64_t random_value = (generator()%5+1);
-  Plaintext poly_num = encoder.encode(random_value);
+  vector<int64_t> random_value_vec = createrandomvector(slot_count);
+  Plaintext poly_num;
+  batch_encoder.encode(random_value_vec, poly_num);
   evaluator.multiply_plain_inplace(res, poly_num);
   evaluator.relinearize_inplace(res, relin_keys16);
   Result[i]=res;
