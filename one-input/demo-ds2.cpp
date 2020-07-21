@@ -122,13 +122,15 @@ omp_set_num_threads(NF);
   cout << "Making PIR-query..." << flush;
   //auto start3=chrono::high_resolution_clock::now();
 
-  int64_t index;
+ int64_t index;
   vector<int64_t> new_query;
+  int64_t flag=0;
 
   for(int i=0 ; i<k ; i++){
     for(int j=0 ; j<row_size ; j++){
-      if(dec_result[i][j] == 0){
+      if(dec_result[i][j] == 0 && flag == 0){
         index = i;
+        flag = 1;
         cout<<"i: "<<i<<" j: "<<j<<endl;
         for(int kk=0 ; kk<l ; kk++){
           if(kk==j) new_query.push_back(1);
@@ -137,6 +139,7 @@ omp_set_num_threads(NF);
       }
     }
   }
+  if(flag == 0) cout<<"ERROR: NO FIND INPUT NUMBER!"<<endl;
   cout << "OK" << endl;
 
 //new_index is new_query left_shift the value of index

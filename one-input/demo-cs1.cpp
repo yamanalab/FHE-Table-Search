@@ -102,13 +102,10 @@ void output_plaintext(const vector<vector <int64_t>> &a){
     }
 }
 
-vector<int64_t> createrandomvector(int64_t leg){
-  vector<int64_t> randomvec;
-  for(int i=0 ; i<leg ; ++i){
-    int64_t random_value = (generator()%30+1);
-    randomvec.push_back(random_value);
+void out_vector(vector<int64_t> x){
+  for(int i=0 ; i<x.size() ; ++i){
+    cout<<x[i]<<" ";
   }
-  return randomvec;
 }
 
 int main(int argc, char *argv[]){
@@ -221,9 +218,18 @@ for(int64_t i=0 ; i<k ; i++){
   batch_encoder.encode(LUT_input[i], poly_row);
   evaluator.sub_plain_inplace(res, poly_row);
   evaluator.relinearize_inplace(res, relin_keys16);
-  vector<int64_t> random_value_vec = createrandomvector(slot_count);
+
+  vector<int64_t> random_value_vec;
+  for(int64_t sk=0 ; sk<row_size ; ++sk){
+    int64_t random_value=(generator()%5+1);
+    random_value_vec.push_back(random_value);
+  }
+  random_value_vec.resize(slot_count);
   Plaintext poly_num;
   batch_encoder.encode(random_value_vec, poly_num);
+  // int64_t random_value=(generator()%5+1);
+  // Plaintext poly_num = encoder.encode(random_value);
+
   evaluator.multiply_plain_inplace(res, poly_num);
   evaluator.relinearize_inplace(res, relin_keys16);
   Result[i]=res;
