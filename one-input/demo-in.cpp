@@ -46,11 +46,13 @@ int main(int argc, char *argv[]){
   unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   std::mt19937 generator(seed);
 
-  string s1(argv[1]);
+  //string s1(argv[1]);
   //make query
-  cout<<"Get query!: ";
-  int64_t LUT_query=to_string(s1);
-  //cin >> LUT_query;
+  cout<<"Get query!";
+  // string LUT_query_temp;
+  // cin >> LUT_query_temp;
+  // int64_t LUT_query=std::atoi(LUT_query_temp);
+  int64_t LUT_query=2;
 
   //encrypt the LUT query
   cout << "Encrypt and save your query..." << flush;

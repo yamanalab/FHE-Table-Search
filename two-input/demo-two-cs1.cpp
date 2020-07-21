@@ -165,14 +165,14 @@ void Create_LUT(vector<int64_t> &table_x, vector<int64_t> &table_y, vector<int64
 
 }
 
-vector<int64_t> createrandomvector(int64_t leg){
-  vector<int64_t> randomvec;
-  for(int i=0 ; i<leg ; ++i){
-    int64_t random_value = (generator()%30+1);
-    randomvec.push_back(random_value);
-  }
-  return randomvec;
-}
+// vector<int64_t> createrandomvector(int64_t leg){
+//   vector<int64_t> randomvec;
+//   for(int i=0 ; i<leg ; ++i){
+//     int64_t random_value = (generator()%30+1);
+//     randomvec.push_back(random_value);
+//   }
+//   return randomvec;
+// }
 
 
 int main(int argc, char *argv[]){
@@ -286,7 +286,16 @@ int main(int argc, char *argv[]){
     evaluator.sub_plain_inplace(res_x, poly_row_x);
     evaluator.relinearize_inplace(res_x, relin_keys16);
 
-    vector<int64_t> random_value_vec1 = createrandomvector(slot_count);
+    // vector<int64_t> random_value_vec1 = createrandomvector(slot_count);
+    // Plaintext poly_num_x;
+    // batch_encoder.encode(random_value_vec1, poly_num_x);
+
+    vector<int64_t> random_value_vec1;
+    for(int64_t sk=0 ; sk<row_size ; ++sk){
+      int64_t random_value=(generator()%5+1);
+      random_value_vec1.push_back(random_value);
+    }
+    random_value_vec1.resize(slot_count);
     Plaintext poly_num_x;
     batch_encoder.encode(random_value_vec1, poly_num_x);
 
@@ -305,7 +314,15 @@ int main(int argc, char *argv[]){
     evaluator.sub_plain_inplace(res_y, poly_row_y);
     evaluator.relinearize_inplace(res_y, relin_keys16);
 
-    vector<int64_t> random_value_vec2 = createrandomvector(slot_count);
+    // vector<int64_t> random_value_vec2 = createrandomvector(slot_count);
+    // Plaintext poly_num_y;
+    // batch_encoder.encode(random_value_vec2, poly_num_y);
+    vector<int64_t> random_value_vec2;
+    for(int64_t sk=0 ; sk<row_size ; ++sk){
+      int64_t random_value=(generator()%5+1);
+      random_value_vec2.push_back(random_value);
+    }
+    random_value_vec2.resize(slot_count);
     Plaintext poly_num_y;
     batch_encoder.encode(random_value_vec2, poly_num_y);
 
