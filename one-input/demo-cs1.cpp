@@ -69,7 +69,7 @@ void Create_LUT(vector<vector<int64_t> > LUT, vector<int64_t> randomVector,vecto
   vector<int64_t> sub_output;
   int64_t Total=randomVector.size();
   cout<<Total<<endl;
-  int row_size=l/2;
+  int row_size=l;
   int64_t index=0;
     for(int64_t i=0 ; i<k ; i++){
       for(int64_t j=0 ; j<row_size ; j++){
