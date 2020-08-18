@@ -1,0 +1,3 @@
+poly_mod_degree = 8192
+coef_mod_192    = 8192
+plain_mod       = 786433
