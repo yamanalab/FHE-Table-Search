@@ -1,0 +1,40 @@
+2020-07-28  Hiromichi Iizuka  <iizuka@eduam.co.jp>
+
+	[r1.2]
+	
+	* 2.システム概要
+	  - システム概要図と説明を更新
+	* 3.1.1.インターフェイス
+	  - DECClient::new_key()の引数からPubkeyを削除
+	  - DECClientにget_pubkey(), get_galoiskey(), get_relinkey(), get_param()を追加
+	  - CSClient::send_query()としてコールバック対応版を追加
+	  - CSClient::set_callback()を追加
+	* 3.3.1.インターフェイス
+	  - CSServer::CSServer()の引数にdec_host, dec_portを追加
+
+2020-03-18  Hiromichi Iizuka  <iizuka@eduam.co.jp>
+
+	[r1.1]
+	
+	* 1.6.参照
+	  - typo修正
+	* 2.システム概要
+	  - UserがCSへ送るクエリに関数番号を追加
+	* 3.1.1.インターフェース
+	  - DECClient::new_keys()の引数にPubkey,Seckeyを追加. 各メソッドの説明文を追記
+	  - CSCient::send_query()の引数に関数番号を追加. 各メソッドの説明文を追記
+	* 3.3.1.インターフェース
+	  - CSServer::CSServer()の引数LUT_filepathをLUT_dirpathに修正
+	  - CSServer::CSServer()の引数に最大結果保持数と結果を保持する時間を追加
+	* 3.3.3.シーケンス
+	  - クエリ受信時のシーケンス図に入力数の検証処理とResultQueueのチェック処理を追加
+	* 4.2.LUTファイルフォーマット
+	  - ファイルフォーマットの1行目に関数番号を追加
+	  - 関数とその関数が取り得る入力値数についての仕様を追記
+
+2020-03-17  Hiromichi Iizuka <iizuka@eduam.co.jp>
+
+	[r1.0]
+	
+	* 初版
+
